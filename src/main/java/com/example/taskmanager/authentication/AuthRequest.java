@@ -1,4 +1,4 @@
 package com.example.taskmanager.authentication;
 
-public class AuthenticationRequest {
+public class AuthRequest {
 }
