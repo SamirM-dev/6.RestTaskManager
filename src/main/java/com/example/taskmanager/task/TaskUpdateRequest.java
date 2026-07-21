@@ -4,7 +4,9 @@ import com.example.taskmanager.validation.TaskPriorityValid;
 import com.example.taskmanager.validation.TaskStatusValid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import lombok.Data;
 
+@Data
 public class TaskUpdateRequest {
     @NotBlank(message = "Title should be entered")
     private String title;
