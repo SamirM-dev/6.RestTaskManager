@@ -3,7 +3,5 @@ package com.example.taskmanager.enums;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public enum TaskPriority {
-    @JsonProperty("Low") LOW,
-    @JsonProperty("Medium") MEDIUM,
-    @JsonProperty("High") HIGH
+    LOW,MEDIUM,HIGH
 }

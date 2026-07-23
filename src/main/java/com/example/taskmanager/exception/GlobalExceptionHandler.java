@@ -51,6 +51,8 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(401).body(response);
     }
 
+
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleException(Exception e, HttpServletRequest request){
         ErrorResponse response = new ErrorResponse(

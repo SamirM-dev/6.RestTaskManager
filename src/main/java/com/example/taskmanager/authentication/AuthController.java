@@ -10,8 +10,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.naming.AuthenticationException;
-
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/auth")
@@ -20,7 +18,7 @@ public class AuthController {
     private final AuthService authService;
 
     @PostMapping("/login")
-    public ResponseEntity<Void> login(@RequestBody AuthRequest request)throws AuthenticationException {
+    public ResponseEntity<Void> login(@RequestBody AuthRequest request){
         return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE,authService.login(request.email, request.getPassword()).toString()).build();
     }
 

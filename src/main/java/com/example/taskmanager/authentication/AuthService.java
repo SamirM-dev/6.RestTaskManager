@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseCookie;
 import org.springframework.stereotype.Service;
 
-import javax.naming.AuthenticationException;
 import java.util.UUID;
 
 @Service
@@ -17,7 +16,7 @@ public class AuthService {
 
     private final UserService userService;
 
-    public ResponseCookie login(String email, String password) throws AuthenticationException {
+    public ResponseCookie login(String email, String password){
         User user = userService.findByEmail(email);
         if(user == null){
             throw new EntityNotFoundException("User with email " + email + " not found");
@@ -32,6 +31,6 @@ public class AuthService {
     }
 
     public ResponseCookie logout(){
-       return ResponseCookie.from("access_token","").maxAge(0).path("/api/v1/**").build();
+       return ResponseCookie.from("access_token","").maxAge(0).path("/api/v1").build();
     }
 }

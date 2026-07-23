@@ -57,6 +57,6 @@ public class CommentService {
     }
 
     public Comment idCheck(Long id){
-        return EntityFinder.findOrThrow(commentRepository,id,"Task");
+        return EntityFinder.findOrThrow(commentRepository,id,"Comment");
     }
 }
