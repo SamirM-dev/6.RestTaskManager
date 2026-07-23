@@ -14,8 +14,4 @@ public class CommentCreateRequest {
     private String text;
     @NotBlank(message = "Author must be entered")
     private String author;
-    @NotBlank(message = "Task ID must be entered")
-    @Min(value = 1,message = "Task ID can not me less than 1")
-    @JsonProperty("task_id")
-    private Long taskId;
 }

@@ -70,7 +70,6 @@ public class Task {
 
     public void addComment(Comment comment) {
         this.comments.add(comment);
-        comment.setTask(this);
     }
 
     public void removeComment(Comment comment) {

@@ -1,6 +1,7 @@
 package com.example.taskmanager.user;
 
 import com.example.taskmanager.task.Task;
+import com.example.taskmanager.task.TaskResponse;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
@@ -13,7 +14,7 @@ import java.util.List;
 public class UserResponse {
     private Long id;
     private String name;
-    private List<Task> tasks;
+    private List<TaskResponse> tasks;
     @JsonProperty("created_at")
     private LocalDateTime createdAt;
 }

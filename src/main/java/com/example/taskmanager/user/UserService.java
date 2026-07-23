@@ -1,6 +1,8 @@
 package com.example.taskmanager.user;
 
+import com.example.taskmanager.comment.Comment;
 import com.example.taskmanager.exception.ResourceAlreadyExistsException;
+import com.example.taskmanager.helper.EntityFinder;
 import com.example.taskmanager.task.TaskResponse;
 import com.example.taskmanager.task.TaskService;
 import jakarta.persistence.EntityNotFoundException;
@@ -28,37 +30,28 @@ public class UserService {
     }
 
     public UserResponse findBYId(Long id){
-        if (id<=0){
-            throw new IllegalArgumentException("Not Valid id");
-        }
-        User findedUser = userRepository.findById(id).orElseThrow(()->new EntityNotFoundException("User with id: "+id+" does not exist"));
-        return toResponse(findedUser);
+        return toResponse(idCheck(id));
     }
 
     public List<TaskResponse> findTasksByUserIdWithPagination(Long id, Pageable pageable){
-        if (id<=0){
-            throw new IllegalArgumentException("Not Valid id");
-        }
-        User findedUser = userRepository.findById(id).orElseThrow(()->new EntityNotFoundException("User with id: "+id+" does not exist"));
+        idCheck(id);
         return taskService.findByUserIdWithPagination(id,pageable);
     }
 
-    public User findUserById(Long id){
-        if (id<=0){
-            throw new IllegalArgumentException("Not Valid id");
-        }
-        return userRepository.findById(id).orElseThrow(()->new EntityNotFoundException("User with id: "+id+" does not exist"));
+    public User findByEmail(String email){
+        return userRepository.findByEmail(email).orElse(null);
     }
-
-
-
-    private UserResponse toResponse(User user){
+public UserResponse toResponse(User user){
         UserResponse response = new UserResponse();
         response.setId(user.getId());
         response.setName(user.getName());
         response.setCreatedAt(user.getCreatedAt());
-        response.setTasks(user.getTasks());
+        response.setTasks(user.getTasks().stream().map(taskService::toResponse).toList());
         return response;
+    }
+
+    public User idCheck(Long id){
+        return EntityFinder.findOrThrow(userRepository,id,"User");
     }
 
 

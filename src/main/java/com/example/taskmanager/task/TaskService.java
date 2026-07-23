@@ -2,6 +2,7 @@ package com.example.taskmanager.task;
 
 import com.example.taskmanager.enums.TaskPriority;
 import com.example.taskmanager.enums.TaskStatus;
+import com.example.taskmanager.helper.EntityFinder;
 import com.example.taskmanager.user.User;
 import com.example.taskmanager.user.UserRepository;
 import com.example.taskmanager.user.UserService;
@@ -22,23 +23,18 @@ public class TaskService {
     private final UserService userService;
 
     public TaskResponse create(TaskCreateRequest request){
-        User user = userService.findUserById(request.getUserId());
-        return toResponse(taskRepository.save(new Task(request.getTitle(), request.getDescription(), TaskPriority.valueOf(request.getPriority()),user)));
+        User user = userService.idCheck(request.getUserId());
+        Task created=new Task(request.getTitle(), request.getDescription(), TaskPriority.valueOf(request.getPriority()),user);
+        user.addTask(created);
+        return toResponse(taskRepository.save(created));
     }
 
     public TaskResponse findById(Long id){
-        if(id<=0){
-            throw new IllegalArgumentException("Id is not valid");
-        }
-        Task task=taskRepository.findById(id).orElseThrow(()->new EntityNotFoundException("Task with id: "+id+" does not exists"));
-        return toResponse(task);
+        return toResponse(idCheck(id));
     }
 
     public TaskResponse update(Long id,TaskUpdateRequest request){
-        if(id<=0){
-            throw new IllegalArgumentException("Id is not valid");
-        }
-        Task task=taskRepository.findById(id).orElseThrow(()->new EntityNotFoundException("Task with id: "+id+" does not exists"));
+        Task task=idCheck(id);
         task.setTitle(request.getTitle());
         task.setDescription(request.getDescription());
         task.setStatus(TaskStatus.valueOf(request.getStatus()));
@@ -47,19 +43,14 @@ public class TaskService {
     }
 
     public TaskResponse statusUpdate(Long id,TaskStatusUpdateRequest request){
-        if(id<=0){
-            throw new IllegalArgumentException("Id is not valid");
-        }
-        Task task=taskRepository.findById(id).orElseThrow(()->new EntityNotFoundException("Task with id: "+id+" does not exists"));
+        Task task=idCheck(id);
         task.setStatus(TaskStatus.valueOf(request.getStatus()));
         return toResponse(taskRepository.save(task));
     }
 
     public void delete(Long id){
-        if(id<=0){
-            throw new IllegalArgumentException("Id is not valid");
-        }
-        Task task=taskRepository.findById(id).orElseThrow(()->new EntityNotFoundException("Task with id: "+id+" does not exists"));
+        Task task=idCheck(id);
+        task.getUser().removeTask(task);
         taskRepository.delete(task);
     }
 
@@ -81,7 +72,8 @@ public class TaskService {
         return result;
    }
 
-    private TaskResponse toResponse(Task task){
+
+    public TaskResponse toResponse(Task task){
         TaskResponse response=new TaskResponse();
         response.setId(task.getId());
         response.setTitle(task.getTitle());
@@ -92,5 +84,9 @@ public class TaskService {
         response.setUpdatedAt(task.getUpdatedAt());
         response.setUserId(task.getUser().getId());
         return response;
+    }
+
+    public Task idCheck(Long id){
+       return EntityFinder.findOrThrow(taskRepository,id,"Task");
     }
 }

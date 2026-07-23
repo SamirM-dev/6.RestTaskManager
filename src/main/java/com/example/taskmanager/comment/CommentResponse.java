@@ -1,11 +1,13 @@
 package com.example.taskmanager.comment;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
 
 import java.time.LocalDateTime;
 
+@Data
 public class CommentResponse {
-    private String id;
+    private Long id;
     private String text;
     private String author;
     @JsonProperty("created_at")
