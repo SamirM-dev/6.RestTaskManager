@@ -65,7 +65,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n  \"status\": \"DONE\"\r\n}"
+              "raw": ""
             },
             "url": {
               "raw": "{{SERVERURL}}/users/3/tasks",
@@ -148,7 +148,7 @@
               }
             },
             "url": {
-              "raw": "{{SERVERURL}}/tasks??page=0&size=2&sort=id,desc",
+              "raw": "{{SERVERURL}}/tasks?page=0&size=2&sort=id,desc",
               "host": [
                 "{{SERVERURL}}"
               ],
@@ -157,7 +157,7 @@
               ],
               "query": [
                 {
-                  "key": "?page",
+                  "key": "page",
                   "value": "0"
                 },
                 {
@@ -235,7 +235,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n  \"status\": \"DONE\"\r\n}"
+              "raw": ""
             },
             "url": {
               "raw": "{{SERVERURL}}/tasks/2",
@@ -347,7 +347,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"text\": \"it stay first\",\r\n    \"author\": \"creator\"\r\n}"
+              "raw": ""
             },
             "url": {
               "raw": "{{SERVERURL}}/tasks/1/comments",
@@ -370,7 +370,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"text\": \"it stay first\",\r\n    \"author\": \"creator\"\r\n}"
+              "raw": ""
             },
             "url": {
               "raw": "{{SERVERURL}}/tasks/1/comments/2",
@@ -394,7 +394,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"text\": \"it stay first\",\r\n    \"author\": \"creator\"\r\n}"
+              "raw": ""
             },
             "url": {
               "raw": "{{SERVERURL}}/tasks/1/comments/5",
@@ -450,7 +450,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"email\": \"email@email.com\",\r\n  \"password\": \"password\"\r\n}"
+              "raw": ""
             },
             "url": {
               "raw": "{{SERVERURL}}/auth/logout",
