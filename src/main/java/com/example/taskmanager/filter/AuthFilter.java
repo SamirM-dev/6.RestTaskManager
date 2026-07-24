@@ -14,7 +14,12 @@ public class AuthFilter extends OncePerRequestFilter {
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
         String uri= request.getRequestURI();
-        return uri.startsWith("/api/v1/auth")||uri.startsWith("/actuator/");
+        String method = request.getMethod();
+
+        boolean isRegistration=uri.equals("/api/v1/users")&&method.equals("POST");
+        boolean isSwagger=uri.startsWith("/v3/api-docs") || uri.startsWith("/swagger-ui");
+
+        return uri.startsWith("/api/v1/auth")||uri.startsWith("/actuator/")||isSwagger||isRegistration;
     }
 
     @Override

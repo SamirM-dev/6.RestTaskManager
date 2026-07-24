@@ -3,6 +3,7 @@ package com.example.taskmanager.user;
 import com.example.taskmanager.task.TaskResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +32,7 @@ public class UserController {
     }
 
     @GetMapping("/users/{id}/tasks")
-    public ResponseEntity<List<TaskResponse>> getAll(@PathVariable Long id, Pageable pageable){
+    public ResponseEntity<List<TaskResponse>> getAll(@PathVariable Long id, @ParameterObject Pageable pageable){
         return ResponseEntity.ok(userService.findTasksByUserIdWithPagination(id,pageable));
     }
 }

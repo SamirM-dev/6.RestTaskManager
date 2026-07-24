@@ -2,11 +2,16 @@ package com.example.taskmanager.exception;
 
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.core.PropertyReferenceException;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 import javax.naming.AuthenticationException;
 import java.util.List;
@@ -49,6 +54,40 @@ public class GlobalExceptionHandler {
                 HttpStatus.UNAUTHORIZED.value(),"UNAUTHORIZED",e.getMessage(),request.getRequestURI()
         );
         return ResponseEntity.status(401).body(response);
+    }
+
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+    public ResponseEntity<ErrorResponse> handleHttpRequestMethodNotSupported(HttpRequestMethodNotSupportedException e,HttpServletRequest request){
+        ErrorResponse response = new ErrorResponse(
+                HttpStatus.METHOD_NOT_ALLOWED.value(), "METHOD_NOT_ALLOWED","HTTP-метод "+e.getMethod()+" не поддерживается по данному пути",request.getRequestURI()
+        );
+
+        String[] methods = e.getSupportedMethods();
+        return  ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).header(HttpHeaders.ALLOW,String.join(", ",methods)).body(response);
+    }
+
+    @ExceptionHandler(NoResourceFoundException.class)
+    public ResponseEntity<ErrorResponse> handleNoResourceFound(NoResourceFoundException e,HttpServletRequest request){
+        ErrorResponse response = new ErrorResponse(
+                HttpStatus.NOT_FOUND.value(),"NOT FOUND","Запрошенный путь не существует",request.getRequestURI()
+        );
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+    }
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<ErrorResponse> handleDataIntegrityViolation(DataIntegrityViolationException e,HttpServletRequest request){
+        ErrorResponse response = new ErrorResponse(
+                HttpStatus.CONTINUE.value(), "CONFLICT", "Операция нарушает ограничение целостности данных", request.getRequestURI()
+        );
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
+    }
+
+    @ExceptionHandler(PropertyReferenceException.class)
+    public ResponseEntity<ErrorResponse> handlePropertyReference(PropertyReferenceException e,HttpServletRequest request){
+        ErrorResponse response = new ErrorResponse(
+                400,"BAD REQUEST","Не корректное поле сортировки: "+e.getPropertyName(),request.getRequestURI()
+        );
+        return ResponseEntity.badRequest().body(response);
     }
 
 

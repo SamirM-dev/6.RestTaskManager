@@ -14,7 +14,7 @@ public class FilterConfig {
         FilterRegistrationBean<RequestIdFilter> bean= new FilterRegistrationBean<>();
         bean.setFilter(new RequestIdFilter());
         bean.setOrder(1);
-        bean.addUrlPatterns("/api/**");
+        bean.addUrlPatterns("/api/*");
         return bean;
     }
 
@@ -23,7 +23,7 @@ public class FilterConfig {
         FilterRegistrationBean<LogFilter> bean = new FilterRegistrationBean<>();
         bean.setFilter(new LogFilter());
         bean.setOrder(2);
-        bean.addUrlPatterns("/api/**");
+        bean.addUrlPatterns("/api/*");
         return bean;
     }
 
@@ -32,7 +32,7 @@ public class FilterConfig {
         FilterRegistrationBean<AuthFilter> bean = new FilterRegistrationBean<>();
         bean.setFilter(new AuthFilter());
         bean.setOrder(3);
-        bean.addUrlPatterns("/api/**");
+        bean.addUrlPatterns("/api/*");
         return bean;
     }
 

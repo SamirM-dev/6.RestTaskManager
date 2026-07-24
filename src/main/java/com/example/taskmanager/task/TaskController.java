@@ -2,6 +2,7 @@ package com.example.taskmanager.task;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -44,7 +45,7 @@ import java.util.List;
     }
 
     @GetMapping("/tasks")
-    public ResponseEntity<List<TaskResponse>> getAll(@RequestParam(required = false) String status, @RequestParam(required = false) String priority, Pageable pageable){
+    public ResponseEntity<List<TaskResponse>> getAll(@RequestParam(required = false) String status, @RequestParam(required = false) String priority,@ParameterObject Pageable pageable){
         return ResponseEntity.ok(taskService.getTasksWithPaginationAndFilters(status,priority,pageable));
     }
 
