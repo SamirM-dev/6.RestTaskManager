@@ -51,7 +51,6 @@ curl -X ‘POST’ \
 }'
 ```
 
-Translated with DeepL.com (free version)
 - Search for tasks with pagination and filters:
 ```
 curl -X ‘GET’ \
